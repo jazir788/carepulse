@@ -13,6 +13,8 @@ import {
 import { Control } from 'react-hook-form';
 import { FormFieldType } from './forms/PatientForm';
 import Image from 'next/image';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css'
 
   interface CustomProps {
     control: Control<any>,
@@ -53,6 +55,21 @@ const RenderField = ({field, props}: {field:any, props: CustomProps}) => {
                         className='shad-input border-0'/>
                     </FormControl>
                 </div>
+            )
+        case FormFieldType.PHONE_INPUT:
+            return(
+            <FormControl>
+                <PhoneInput
+                    defaultCountry='GB'
+                    placeholder = {placeholder}
+                    international
+                    withCountryCallingCode
+                    value={field.value as E164Number | undefined}
+                    onChange={field.onChange}
+                    classname="input-phone"
+                    />
+            </FormControl>
+
             )
             default:
                 break;
