@@ -3,14 +3,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { useState } from "react";
 import { UserFormValidation } from "@/lib/validation";
-import { useRouter } from "next/router";
+import "react-phone-number-input/style.css";
 import { createUser } from "@/lib/actions/patient.actions";
+import { useRouter } from "next/navigation";
 
 export enum FormFieldType  {
     INPUT = 'input',
@@ -48,7 +48,9 @@ const PatientForm = () => {
 
     const user = await createUser(userData)
 
-    if(user) router.push(`/patients/${user.$id}/register`)
+    if(user) {
+      router.push(`/patients/${user.$id}/register`)
+    }
     
    } catch (error) {
     console.log(error)
