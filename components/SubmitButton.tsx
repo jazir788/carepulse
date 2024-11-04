@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 interface ButtonProps{
     isLoading: boolean,
-    classname?: string,
+    className?: string,
     children: React.ReactNode
 }
 
