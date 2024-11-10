@@ -23,6 +23,7 @@
     "node-appwrite": "^14.1.0",
     "radio-group": "^0.0.2",
     "react": "^18",
+    "react-datepicker": "^7.5.0",
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "react-phone-number-input": "^3.4.9",
