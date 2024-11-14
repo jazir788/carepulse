@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl } from "@/components/ui/form";
@@ -13,6 +14,10 @@ import { createUser } from "@/lib/actions/patient.actions";
 import { useRouter } from "next/navigation";
 import { FormFieldType } from "./PatientForm";
 import { RadioGroup } from "@radix-ui/react-radio-group";
+import { Doctors, GenderOptions } from "@/constants";
+import { RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
+import { Select, SelectItem } from "../ui/select";
 
 
 const RegisterForm = ({user}: {user:User}) => {
@@ -115,7 +120,20 @@ const RegisterForm = ({user}: {user:User}) => {
                             className="flex h-11 gap-6 xl:justify-between" 
                             onValueChange={field.onChange}
                             defaultValue={field.value}>
-                                
+                                {GenderOptions.map((option)=> 
+                                (
+                                <div key={option} className="radio-group">
+                                    <RadioGroupItem 
+                                        value={option}
+                                        id={option}/>
+                                    <Label htmlFor={option}
+                                        className="cursor-pointer"
+                                    >
+                                        {option}
+                                    </Label>
+
+                                </div>))}
+
 
                         </RadioGroup>
 
@@ -124,6 +142,106 @@ const RegisterForm = ({user}: {user:User}) => {
             />
         </div>
 
+        <div className="flex flex-col gap-6 xl:flex-row">
+            <CustomFormField
+                fieldType = {FormFieldType.INPUT}
+                control={form.control} 
+                name = "address"
+                label = "Address"
+                placeholder = "14 California Way, Weybridge"
+            />
+            <CustomFormField
+                fieldType = {FormFieldType.INPUT}
+                control={form.control} 
+                name = "occupation"
+                label = "Occupation"
+                placeholder = "Software Engineer"
+            />
+        </div>
+
+        <div className="flex flex-col gap-6 xl:flex-row">
+            <CustomFormField
+                fieldType = {FormFieldType.INPUT}
+                control={form.control} 
+                name = "emergencyContactName"
+                label = "Emergency Contact Name"
+                placeholder = "Guardian's Name"
+            />
+            <CustomFormField
+                fieldType = {FormFieldType.PHONE_INPUT}
+                control={form.control} 
+                name = "emergencyContactNumber"
+                label = "Emergency Contact Number"
+                placeholder = "07777777777"
+            />
+        </div>
+
+        <section className="space-y-6">
+            <div className="mb-9 space-y-1">
+                <h2 className="sub-header">Medical Information</h2>
+            </div>
+        </section>
+
+        <CustomFormField
+                fieldType = {FormFieldType.SELECT}
+                control={form.control} 
+                name = "primaryPhysician"
+                label = "Primary Physician"
+                placeholder = "Select a Physician"
+        >
+            {Doctors.map((doctor, i)=> (
+                <SelectItem key={doctor.name+ i} value={doctor.name}>
+                    <div className="flex cursor-pointer items-center gap-2">
+                        <Image 
+                            src={doctor.image}
+                            width={32}
+                            height={32}
+                            alt={doctor.name}
+                            className="rounded-full border border-dark-500" 
+                        />
+
+                        <p> {doctor.name}</p>
+                    </div>
+
+                </SelectItem>
+            ) )}
+        </CustomFormField>
+
+        <div className="flex flex-col gap-6 xl:flex-row">
+        <CustomFormField
+                fieldType = {FormFieldType.INPUT}
+                control={form.control} 
+                name = "insuranceProvider"
+                label = "Insurance Provider"
+                placeholder = "Vitality"
+            />
+            <CustomFormField
+                fieldType = {FormFieldType.INPUT}
+                control={form.control} 
+                name = "insurancePolicyNumber"
+                label = "Insurance Policy Number"
+                placeholder = "ABC123456789"
+            />
+
+        </div>
+        
+        <div className="flex flex-col gap-6 xl:flex-row">
+        <CustomFormField
+                fieldType = {FormFieldType.TEXTAREA}
+                control={form.control} 
+                name = "allergies"
+                label = "Allergies"
+                placeholder = "Peanuts, Penicillin, Pollen"
+            />
+            <CustomFormField
+                fieldType = {FormFieldType.INPUT}
+                control={form.control} 
+                name = "currentMedication"
+                label = "Current Medication"
+                placeholder = "Blue Inhaler, Ibupofen 200mg"
+            />
+
+        </div>
             
         <SubmitButton isLoading={isLoading}> Get Started</SubmitButton>
       </form>
