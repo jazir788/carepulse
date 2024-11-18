@@ -14,7 +14,7 @@ import { createUser } from "@/lib/actions/patient.actions";
 import { useRouter } from "next/navigation";
 import { FormFieldType } from "./PatientForm";
 import { RadioGroup } from "@radix-ui/react-radio-group";
-import { Doctors, GenderOptions } from "@/constants";
+import { Doctors, GenderOptions, IdentificationTypes } from "@/constants";
 import { RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
 import { Select, SelectItem } from "../ui/select";
@@ -255,10 +255,38 @@ const RegisterForm = ({user}: {user:User}) => {
                 fieldType = {FormFieldType.INPUT}
                 control={form.control} 
                 name = "pastMedicalHistory"
-                label = "Pat Medical History"
+                label = "Past Medical History"
                 placeholder = "Appendectomory"
             />
         </div>
+
+        <section className="space-y-6">
+            <div className="mb-9 space-y-1">
+                <h2 className="sub-header">Identification and Verification</h2>
+            </div>
+        </section>
+
+        <CustomFormField
+                fieldType = {FormFieldType.SELECT}
+                control={form.control} 
+                name = "identificationType"
+                label = "Identification Type"
+                placeholder = "Select an identification type"
+        >
+            {IdentificationTypes.map((type)=> (
+                <SelectItem key={type} value={type}>
+                  {type}
+                </SelectItem>
+            ) )}
+        </CustomFormField>
+
+        <CustomFormField
+                fieldType = {FormFieldType.INPUT}
+                control={form.control} 
+                name = "identificationNumber"
+                label = "Identification Number"
+                placeholder = "1234567890"
+            />
             
         <SubmitButton isLoading={isLoading}> Get Started</SubmitButton>
       </form>
