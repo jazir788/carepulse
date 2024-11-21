@@ -18,6 +18,7 @@ import { Doctors, GenderOptions, IdentificationTypes } from "@/constants";
 import { RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
 import { Select, SelectItem } from "../ui/select";
+import FileUploader from "../FileUploader";
 
 
 const RegisterForm = ({user}: {user:User}) => {
@@ -286,6 +287,19 @@ const RegisterForm = ({user}: {user:User}) => {
                 name = "identificationNumber"
                 label = "Identification Number"
                 placeholder = "1234567890"
+            />
+
+        <CustomFormField
+                fieldType = {FormFieldType.SKELETON}
+                control={form.control} 
+                name = "identificationDocument"
+                label = "Scanned copy of identification document"
+                renderSkeleton={(field) => (
+                    <FormControl>
+                        <FileUploader />
+                    </FormControl>
+                   
+                )}
             />
             
         <SubmitButton isLoading={isLoading}> Get Started</SubmitButton>
