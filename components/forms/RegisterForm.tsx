@@ -8,13 +8,13 @@ import { Form, FormControl, FormField } from "@/components/ui/form";
 import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { useState } from "react";
-import { UserFormValidation } from "@/lib/validation";
+import { PatientFormValidation, UserFormValidation } from "@/lib/validation";
 import "react-phone-number-input/style.css";
 import { createUser } from "@/lib/actions/patient.actions";
 import { useRouter } from "next/navigation";
 import { FormFieldType } from "./PatientForm";
 import { RadioGroup } from "@radix-ui/react-radio-group";
-import { Doctors, GenderOptions, IdentificationTypes } from "@/constants";
+import { Doctors, GenderOptions, IdentificationTypes, PatientFormDefaultValues } from "@/constants";
 import { RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
 import { Select, SelectItem } from "../ui/select";
@@ -25,9 +25,10 @@ const RegisterForm = ({user}: {user:User}) => {
   const router = useRouter()
     const [isLoading, setIsLoading] = useState(false)
   // 1. Define your form.
-  const form = useForm<z.infer<typeof UserFormValidation>>({
-    resolver: zodResolver(UserFormValidation),
+  const form = useForm<z.infer<typeof PatientFormValidation>>({
+    resolver: zodResolver(PatientFormValidation),
     defaultValues: {
+      ...PatientFormDefaultValues, 
       name: "",
       email: "",
       phone: "",
@@ -35,7 +36,7 @@ const RegisterForm = ({user}: {user:User}) => {
   });
 
   // 2. Define a submit handler.
-  async function onSubmit({name, email, phone}: z.infer<typeof UserFormValidation>) {
+  async function onSubmit({name, email, phone}: z.infer<typeof PatientFormValidation>) {
    setIsLoading(true);
 
    try {
