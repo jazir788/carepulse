@@ -36,21 +36,32 @@ const RegisterForm = ({user}: {user:User}) => {
   });
 
   // 2. Define a submit handler.
-  async function onSubmit({name, email, phone}: z.infer<typeof PatientFormValidation>) {
+  async function onSubmit(values: z.infer<typeof PatientFormValidation>) {
    setIsLoading(true);
+   
+   let formData;
 
+   if (values.identificationDocument && values.identificationDocument.length > 0){
+    const blobFile = new Blob([values.identificationDocument[0]], {
+        type: values.identificationDocument[0].type,
+    })
+    formData = new FormData();
+    formData.append('blobFile', blobFile);
+    formData.append('fileName', values.identificationDocument[0].name)
+   }
    try {
-    const userData  = {
-      name,
-      email,
-      phone
+    const patientData  = {
+        ...values,
+        userId: user?.$id,
+        birthDate: new Date(values.birthDate),
+        IdentificationDocument: formData,
+    }
+    const patient = await registerPatient(patientData);
+
+    if(patient){
+        router.push(`/patients/${user.$id}/new-appointment`)
     }
 
-    const user = await createUser(userData)
-
-    if(user) {
-      router.push(`/patients/${user.$id}/register`)
-    }
     
    } catch (error) {
     console.log(error)
